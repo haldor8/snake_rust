@@ -1,15 +1,54 @@
 use std::mem;
 
+fn affiche_bordure(haut: bool, largeur:i32){
+    if haut{
+        print!("┌");
+    }else{
+        print!("└");
+    }
+
+    for _ in 0..(largeur - 1){
+        print!("───");
+        if haut{
+            print!("┬");
+        }else{
+            print!("┴");
+        }
+    }
+
+    print!("───");
+
+    if haut{
+        println!("┐");
+    }else{
+        println!("┘");
+    }
+}
+
+fn affiche_bordure_centrale(largeur: i32){
+    print!("├");
+    for _ in 0..(largeur - 1){
+        print!("───┼");
+    }
+    println!("───┤");
+}
+
 fn affiche_grille(tableau: &Vec<Vec<char>>, longueur: i32, largeur: i32) {
-    println!("┌───┬───┬───┬───┬───┬───┬───┐");
-    for i in 0..longueur as usize {
+    affiche_bordure(true, largeur);
+    // On affiche toutes les cases
+    for i in 0..(longueur as usize -1){
         for j in 0..largeur as usize {
             print!("| {} ", tableau[i][j]);
         }
         println!("|");
-        println!("├───┼───┼───┼───┼───┼───┼───┤");
+        affiche_bordure_centrale(largeur);
     }
-    println!("└───┴───┴───┴───┴───┴───┴───┘");
+    // Puis on affiche la dernière ligne sans la bordure centrale
+    for j in 0..largeur as usize {
+        print!("| {} ", tableau[longueur as usize - 1][j]);
+    }
+    println!("|");
+    affiche_bordure(false, largeur);
 }
 
 enum Direction {
